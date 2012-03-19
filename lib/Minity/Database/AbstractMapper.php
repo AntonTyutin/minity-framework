@@ -50,7 +50,7 @@ abstract class AbstractMapper implements MapperInterface
     {
         $criteria['limit'] = 1;
         $collection = $this->find($criteria);
-        return $collection[0];
+        return @$collection[0];
     }
 
 
