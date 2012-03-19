@@ -31,7 +31,8 @@ class View
     public static function renderText(View $field)
     {
         return sprintf(
-            '<input name="%s" value="%s">',
+            '<input id="%s" name="%s" value="%s">',
+            htmlspecialchars($field->getId()),
             htmlspecialchars($field->getName()),
             htmlspecialchars($field->getData())
         );
@@ -40,7 +41,8 @@ class View
     public static function renderTextarea(View $field)
     {
         return sprintf(
-            '<textarea name="%s">%s</textarea>',
+            '<textarea id="%s" name="%s">%s</textarea>',
+            htmlspecialchars($field->getId()),
             htmlspecialchars($field->getName()),
             htmlspecialchars($field->getData())
         );
@@ -62,7 +64,8 @@ class View
             );
         }
         return sprintf(
-            '<select name="%s">%s</select>',
+            '<select id="%s" name="%s">%s</select>',
+            htmlspecialchars($field->getId()),
             htmlspecialchars($field->getName()),
             $optionsHtml
         );
@@ -71,6 +74,11 @@ class View
     public function getName()
     {
         return $this->name;
+    }
+
+    public function getId()
+    {
+        return trim(preg_replace('/[\[\]\-"\']+/', '_', $this->name), '_');
     }
 
     public function getFields()
