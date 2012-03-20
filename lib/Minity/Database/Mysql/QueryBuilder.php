@@ -298,6 +298,22 @@ class QueryBuilder
                 $conditionString = self::formatName($condition['field'])
                     . ' <> ' . self::formatValue($condition['value']);
                 break;
+            case CriteriaBuilder::OPERATION_GREATER_THEN:
+                $conditionString = self::formatName($condition['field'])
+                    . ' > ' . self::formatValue($condition['value']);
+                break;
+            case CriteriaBuilder::OPERATION_LESS_THEN:
+                $conditionString = self::formatName($condition['field'])
+                    . ' < ' . self::formatValue($condition['value']);
+                break;
+            case CriteriaBuilder::OPERATION_LESS_OR_EQUALS:
+                $conditionString = self::formatName($condition['field'])
+                    . ' <= ' . self::formatValue($condition['value']);
+                break;
+            case CriteriaBuilder::OPERATION_GREATER_OR_EQUALS:
+                $conditionString = self::formatName($condition['field'])
+                    . ' >= ' . self::formatValue($condition['value']);
+                break;
             case CriteriaBuilder::OPERATION_IN:
                 $conditionString = self::formatName($condition['field'])
                     . ' in' . self::formatValue($condition['value']);

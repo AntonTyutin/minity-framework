@@ -15,6 +15,47 @@ class DatabaseMysqlQueryBuilderTest extends \PHPUnit_Framework_TestCase
         }
     }
 
+    /**
+     * @dataProvider provideOperations
+     */
+    public function testOperations($operation, $value, $expected)
+    {
+        $this->failIfNotConnectedToDatabase();
+        $builder = new QueryBuilder();
+        $builder
+            ->select('*')
+            ->from('test')
+            ->where(
+                array(
+                     array( // alertnative
+                         array(
+                             'field'     => 'a',
+                             'operation' => $operation,
+                             'value'     => $value
+                         )
+                     ),
+                )
+            );
+        $expectedSql = 'select * from `test` where `a` ' . $expected;
+        $this->assertEquals(
+            $expectedSql,
+            $builder->build()
+        );
+    }
+
+    public function provideOperations()
+    {
+        return array(
+            array(CriteriaBuilder::OPERATION_EQUALS, 0, '= 0'),
+            array(CriteriaBuilder::OPERATION_GREATER_OR_EQUALS, 0, '>= 0'),
+            array(CriteriaBuilder::OPERATION_LESS_OR_EQUALS, 0, '<= 0'),
+            array(CriteriaBuilder::OPERATION_GREATER_THEN, 0, '> 0'),
+            array(CriteriaBuilder::OPERATION_LESS_THEN, 0, '< 0'),
+            array(CriteriaBuilder::OPERATION_NOT_EQUALS, 0, '<> 0'),
+            array(CriteriaBuilder::OPERATION_IN, array(0, '0'), 'in(0, "0")'),
+        );
+    }
+
     public function testSelect()
     {
         $this->failIfNotConnectedToDatabase();
